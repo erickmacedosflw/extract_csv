@@ -34,11 +34,11 @@ Para baixar um arquivo público diretamente:
 
 Use o link direto do arquivo, não uma página HTML. A URL pode baixar até 10 MB; a entrada base64 permanece limitada a 3 MB por causa do limite de request da Vercel. Endereços internos, como `localhost` e IPs privados, são bloqueados.
 
-Para XLS/XLSX, a primeira aba é convertida. O sucesso retorna `text/csv; charset=utf-8` com o conteúdo no corpo:
+Para XLS/XLSX, a primeira aba é convertida. CSVs também são reserializados. O sucesso retorna `text/csv; charset=utf-8` com o conteúdo no corpo, sempre usando `;` como separador:
 
 ```text
-name,value
-Alice,20
+name;value
+Alice;20
 ```
 
 O limite é de 3 MB após a decodificação. Esse limite considera o limite de request da Vercel e o aumento de aproximadamente 33% do base64. Erros retornam JSON:

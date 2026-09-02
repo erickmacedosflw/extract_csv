@@ -81,7 +81,7 @@ export default function Home() {
         <div className="docs-grid">
           <div><span className="method">POST</span><code className="endpoint">/api/convert</code><p>Converte o primeiro worksheet de um arquivo Excel. CSVs são devolvidos como recebidos.</p><div className="chips"><span>XLS</span><span>XLSX</span><span>CSV</span></div></div>
           <pre className="code-block"><span className="code-label">REQUEST · application/json</span>{requestExample}</pre>
-          <div className="response-note"><span className="status">200 OK</span><strong>text/csv; charset=utf-8</strong><p>Erros retornam JSON com a propriedade <code>error</code>. O conteúdo nunca é persistido.</p></div>
+          <div className="response-note"><span className="status">200 OK</span><strong>text/csv; charset=utf-8 · separador ;</strong><p>Erros retornam JSON com a propriedade <code>error</code>. O conteúdo nunca é persistido.</p></div>
         </div>
       </section>
 

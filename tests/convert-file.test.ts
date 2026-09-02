@@ -26,8 +26,15 @@ describe("decodeFile", () => {
 });
 
 describe("convertToCsv", () => {
-  it("preserves CSV text exactly", () => {
+  it("converts comma-separated CSV to semicolon-separated CSV", () => {
     const csv = 'name,note\nAlice,"hello, world"\n';
+    const file = decodeFile(Buffer.from(csv).toString("base64"), "data.csv");
+
+    expect(convertToCsv(file)).toBe("name;note\nAlice;hello, world");
+  });
+
+  it("normalizes semicolon CSV without changing its fields", () => {
+    const csv = "name;value\nAlice;20";
     const file = decodeFile(Buffer.from(csv).toString("base64"), "data.csv");
 
     expect(convertToCsv(file)).toBe(csv);
@@ -39,7 +46,7 @@ describe("convertToCsv", () => {
     XLSX.utils.book_append_sheet(workbook, XLSX.utils.aoa_to_sheet([["ignored"]]), "Second");
     const bytes = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
 
-    expect(convertToCsv(decodeFile(bytes.toString("base64"), "data.xlsx"))).toBe("name,value\nAlice,20");
+    expect(convertToCsv(decodeFile(bytes.toString("base64"), "data.xlsx"))).toBe("name;value\nAlice;20");
   });
 });
 
