@@ -1,4 +1,4 @@
-export const MAX_FILE_SIZE = 10 * 1024 * 1024;
+export const MAX_FILE_SIZE = 3 * 1024 * 1024;
 
 export type SupportedFormat = "csv" | "xls" | "xlsx";
 
@@ -79,7 +79,7 @@ export function decodeFile(value: unknown, filename?: string): DecodedFile {
 
   const bytes = decodeBase64(payload);
   if (bytes.byteLength > MAX_FILE_SIZE) {
-    throw new FileInputError("O arquivo excede o limite de 10 MB.", 413);
+    throw new FileInputError("O arquivo excede o limite de 3 MB.", 413);
   }
 
   return { bytes, format: detectFormat(bytes, filename, mime) };

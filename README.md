@@ -31,7 +31,7 @@ name,value
 Alice,20
 ```
 
-O limite é de 10 MB após a decodificação. Erros retornam JSON:
+O limite é de 3 MB após a decodificação. Esse limite considera o limite de request da Vercel e o aumento de aproximadamente 33% do base64. Erros retornam JSON:
 
 ```json
 { "error": "O conteúdo não é um base64 válido." }

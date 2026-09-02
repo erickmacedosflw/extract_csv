@@ -16,6 +16,12 @@ describe("decodeFile", () => {
     expect(() => decodeFile("not base64!", "data.csv")).toThrow(FileInputError);
     expect(() => decodeFile("data:text/csv,hello")).toThrow("codificação base64");
   });
+
+  it("rejects files above the serverless request-safe limit", () => {
+    const oversized = Buffer.alloc(3 * 1024 * 1024 + 1).toString("base64");
+
+    expect(() => decodeFile(oversized, "data.csv")).toThrow("limite de 3 MB");
+  });
 });
 
 describe("convertToCsv", () => {

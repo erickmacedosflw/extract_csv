@@ -43,7 +43,7 @@ export default function DocumentationPage() {
         <div className="doc-block"><p className="eyebrow">EXEMPLO · CURL</p><pre className="code-block">{curlExample}</pre></div>
         <div className="doc-block"><p className="eyebrow">EXEMPLO · JAVASCRIPT</p><pre className="code-block">{javascriptExample}</pre></div>
         <div className="doc-block response-doc"><p className="eyebrow">RESPOSTA</p><span className="status">200 OK</span><strong>Content-Type: text/csv; charset=utf-8</strong><pre className="response-code">name,value{`\n`}Alice,20</pre></div>
-        <div className="doc-block limits"><p className="eyebrow">REGRAS</p><ul><li>Formatos: CSV, XLS e XLSX.</li><li>Excel: somente a primeira aba.</li><li>Limite: 10 MB decodificado.</li><li>Sem banco, arquivos ou histórico.</li><li>Erros retornam JSON com <code>error</code>.</li></ul></div>
+        <div className="doc-block limits"><p className="eyebrow">REGRAS</p><ul><li>Formatos: CSV, XLS e XLSX.</li><li>Excel: somente a primeira aba.</li><li>Limite: 3 MB decodificado.</li><li>Sem banco, arquivos ou histórico.</li><li>Erros retornam JSON com <code>error</code>.</li></ul></div>
       </section>
 
       <footer><span>extract_csv · 2026</span><Link href="/">← Voltar para o conversor</Link></footer>
