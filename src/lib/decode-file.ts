@@ -1,4 +1,5 @@
 export const MAX_FILE_SIZE = 3 * 1024 * 1024;
+export const MAX_REMOTE_FILE_SIZE = 10 * 1024 * 1024;
 
 export type SupportedFormat = "csv" | "xls" | "xlsx";
 
@@ -77,9 +78,19 @@ export function decodeFile(value: unknown, filename?: string): DecodedFile {
     throw new FileInputError("O data URI precisa usar a codificação base64.", 400);
   }
 
-  const bytes = decodeBase64(payload);
-  if (bytes.byteLength > MAX_FILE_SIZE) {
-    throw new FileInputError("O arquivo excede o limite de 3 MB.", 413);
+  return decodeBytes(decodeBase64(payload), filename, mime, MAX_FILE_SIZE, "3 MB");
+}
+
+export function decodeBytes(
+  bytes: Uint8Array,
+  filename: string | undefined,
+  mime: string | undefined,
+  maxSize: number,
+  sizeLabel: string,
+): DecodedFile {
+  if (!bytes.length) throw new FileInputError("O arquivo não pode estar vazio.", 422);
+  if (bytes.byteLength > maxSize) {
+    throw new FileInputError(`O arquivo excede o limite de ${sizeLabel}.`, 413);
   }
 
   return { bytes, format: detectFormat(bytes, filename, mime) };

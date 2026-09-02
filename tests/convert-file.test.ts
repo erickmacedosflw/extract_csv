@@ -3,6 +3,7 @@ import * as XLSX from "xlsx";
 
 import { convertToCsv } from "../src/lib/convert-to-csv";
 import { decodeFile, FileInputError } from "../src/lib/decode-file";
+import { fetchRemoteFile } from "../src/lib/fetch-file";
 
 describe("decodeFile", () => {
   it("accepts base64 and data URI input", () => {
@@ -39,5 +40,12 @@ describe("convertToCsv", () => {
     const bytes = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
 
     expect(convertToCsv(decodeFile(bytes.toString("base64"), "data.xlsx"))).toBe("name,value\nAlice,20");
+  });
+});
+
+describe("fetchRemoteFile", () => {
+  it("rejects non-HTTPS and unapproved hosts", async () => {
+    await expect(fetchRemoteFile("http://localhost:3000/data.csv")).rejects.toThrow("URL HTTPS pública");
+    await expect(fetchRemoteFile("https://example.com/data.csv")).rejects.toThrow("URL HTTPS pública");
   });
 });
