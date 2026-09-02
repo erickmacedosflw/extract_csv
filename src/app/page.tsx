@@ -47,7 +47,7 @@ export default function Home() {
     <main>
       <header className="topbar">
         <a className="brand" href="#top" aria-label="extract_csv início"><span className="brand-mark">{`{ }`}</span><span>extract_csv</span></a>
-        <a className="github-link" href="https://github.com/erickmacedosflw/extract_csv" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        <nav className="topnav" aria-label="Navegação principal"><a href="#docs">Como usar</a><a className="github-link" href="https://github.com/erickmacedosflw/extract_csv" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
       </header>
 
       <section className="hero" id="top">
@@ -56,11 +56,12 @@ export default function Home() {
           <h1>Dados tabulares.<br /><em>Texto puro.</em></h1>
           <p className="lede">Envie XLS, XLSX ou CSV. Receba o conteúdo CSV pronto para usar, sem armazenamento e sem ruído.</p>
           <div className="hero-meta"><span>NODE.JS</span><span>Vercel native</span><span>10 MB max</span></div>
+          <div className="hero-actions"><a className="primary-action" href="#workspace">Testar arquivo <span aria-hidden="true">↓</span></a><a className="secondary-action" href="#docs">Ver endpoint <span aria-hidden="true">→</span></a></div>
         </div>
         <div className="hero-art" aria-hidden="true"><div className="orbit orbit-one" /><div className="orbit orbit-two" /><div className="file-symbol"><span>CSV</span><strong>↘</strong></div></div>
       </section>
 
-      <section className="workspace" aria-label="Testar a API">
+      <section className="workspace" id="workspace" aria-label="Testar a API">
         <div className="section-heading"><p className="eyebrow">TRY IT NOW</p><h2>Converta um arquivo</h2><p>O arquivo é processado em memória e descartado ao final da requisição.</p></div>
         <label className={`dropzone ${selectedFile ? "has-file" : ""}`}>
           <input type="file" accept=".csv,.xls,.xlsx,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={handleFileChange} />
