@@ -44,8 +44,8 @@ describe("convertToCsv", () => {
 });
 
 describe("fetchRemoteFile", () => {
-  it("rejects non-HTTPS and unapproved hosts", async () => {
-    await expect(fetchRemoteFile("http://localhost:3000/data.csv")).rejects.toThrow("URL HTTPS pública");
-    await expect(fetchRemoteFile("https://example.com/data.csv")).rejects.toThrow("URL HTTPS pública");
+  it("rejects local and private hosts", async () => {
+    await expect(fetchRemoteFile("http://localhost:3000/data.csv")).rejects.toThrow("endereço público");
+    await expect(fetchRemoteFile("http://192.168.0.10/data.csv")).rejects.toThrow("endereço público");
   });
 });

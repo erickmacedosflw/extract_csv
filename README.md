@@ -15,7 +15,7 @@ Acesse `http://localhost:3000` para abrir a documentação e testar um arquivo n
 
 ### `POST /api/convert`
 
-Envie JSON com uma string base64 pura, data URI base64 ou URL HTTPS pública de um arquivo no GitHub, GitLab ou Bitbucket. `filename` é opcional, mas recomendado para identificar arquivos Excel enviados em base64.
+Envie JSON com uma string base64 pura, data URI base64 ou URL HTTP/HTTPS pública de qualquer provedor. `filename` é opcional, mas recomendado para identificar arquivos Excel enviados em base64.
 
 ```json
 {
@@ -32,7 +32,7 @@ Para baixar um arquivo público diretamente:
 }
 ```
 
-Use o link bruto do arquivo, não a página HTML do repositório. A URL pode baixar até 10 MB; a entrada base64 permanece limitada a 3 MB por causa do limite de request da Vercel.
+Use o link direto do arquivo, não uma página HTML. A URL pode baixar até 10 MB; a entrada base64 permanece limitada a 3 MB por causa do limite de request da Vercel. Endereços internos, como `localhost` e IPs privados, são bloqueados.
 
 Para XLS/XLSX, a primeira aba é convertida. O sucesso retorna `text/csv; charset=utf-8` com o conteúdo no corpo:
 

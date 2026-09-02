@@ -61,11 +61,11 @@ export default function DocumentationPage() {
         <div className="doc-block"><p className="eyebrow">ENTRADA · application/json</p><pre className="code-block">{jsonExample}</pre><p>O campo <code>file</code> aceita base64 puro ou data URI base64. Informe <code>filename</code> para arquivos Excel.</p></div>
         <div className="doc-block"><p className="eyebrow">EXEMPLO · CURL</p><pre className="code-block">{curlExample}</pre></div>
         <div className="doc-block"><p className="eyebrow">EXEMPLO · JAVASCRIPT</p><pre className="code-block">{javascriptExample}</pre></div>
-        <div className="doc-block"><p className="eyebrow">ENTRADA · URL PÚBLICA</p><pre className="code-block">{urlExample}</pre><p>Use o link direto do arquivo bruto. O download remoto aceita arquivos de até 10 MB e não salva o conteúdo.</p></div>
+        <div className="doc-block"><p className="eyebrow">ENTRADA · URL PÚBLICA</p><pre className="code-block">{urlExample}</pre><p>Use qualquer link HTTP ou HTTPS que baixe diretamente o arquivo. O download remoto aceita arquivos de até 10 MB e não salva o conteúdo.</p></div>
         <div className="doc-block"><p className="eyebrow">EXEMPLO · URL COM JAVASCRIPT</p><pre className="code-block">{urlJavascriptExample}</pre></div>
         <div className="doc-block online-test"><UrlTester /></div>
         <div className="doc-block response-doc"><p className="eyebrow">RESPOSTA</p><span className="status">200 OK</span><strong>Content-Type: text/csv; charset=utf-8</strong><pre className="response-code">name,value{`\n`}Alice,20</pre></div>
-        <div className="doc-block limits"><p className="eyebrow">REGRAS</p><ul><li>Formatos: CSV, XLS e XLSX.</li><li>Excel: somente a primeira aba.</li><li>Base64: 3 MB; URL: 10 MB.</li><li>URLs: HTTPS público de GitHub, GitLab ou Bitbucket.</li><li>Sem banco, arquivos ou histórico.</li><li>Erros retornam JSON com <code>error</code>.</li></ul></div>
+        <div className="doc-block limits"><p className="eyebrow">REGRAS</p><ul><li>Formatos: CSV, XLS e XLSX.</li><li>Excel: somente a primeira aba.</li><li>Base64: 3 MB; URL: 10 MB.</li><li>Qualquer URL HTTP/HTTPS pública, sem endereços internos.</li><li>Sem banco, arquivos ou histórico.</li><li>Erros retornam JSON com <code>error</code>.</li></ul></div>
       </section>
 
       <footer><span>extract_csv · 2026</span><Link href="/">← Voltar para o conversor</Link></footer>

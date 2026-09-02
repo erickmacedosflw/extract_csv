@@ -1,11 +1,22 @@
+import dns from "node:dns/promises";
+import net from "node:net";
+
 import { decodeBytes, FileInputError, MAX_REMOTE_FILE_SIZE } from "./decode-file";
 
-const ALLOWED_HOSTS = new Set([
-  "github.com",
-  "raw.githubusercontent.com",
-  "gitlab.com",
-  "bitbucket.org",
-]);
+function isPrivateIp(address: string) {
+  if (net.isIPv4(address)) {
+    const octets = address.split(".").map(Number);
+    return octets[0] === 0 || octets[0] === 10 || octets[0] === 127 ||
+      (octets[0] === 169 && octets[1] === 254) ||
+      (octets[0] === 172 && octets[1] >= 16 && octets[1] <= 31) ||
+      (octets[0] === 192 && octets[1] === 168) ||
+      (octets[0] === 100 && octets[1] >= 64 && octets[1] <= 127) ||
+      (octets[0] === 198 && octets[1] >= 18 && octets[1] <= 19) || octets[0] >= 224;
+  }
+
+  const normalized = address.toLowerCase();
+  return normalized === "::1" || normalized.startsWith("fc") || normalized.startsWith("fd") || normalized.startsWith("fe80:") || normalized.startsWith("::ffff:127.");
+}
 
 export async function fetchRemoteFile(value: unknown) {
   if (typeof value !== "string" || !value.trim()) {
@@ -19,8 +30,23 @@ export async function fetchRemoteFile(value: unknown) {
     throw new FileInputError("A URL informada não é válida.", 400);
   }
 
-  if (url.protocol !== "https:" || !ALLOWED_HOSTS.has(url.hostname.toLowerCase())) {
-    throw new FileInputError("Use uma URL HTTPS pública do GitHub, GitLab ou Bitbucket.", 415);
+  if (url.protocol !== "https:" && url.protocol !== "http:") {
+    throw new FileInputError("Use uma URL HTTP ou HTTPS pública.", 415);
+  }
+  if (["localhost", "127.0.0.1", "::1"].includes(url.hostname.toLowerCase()) || url.hostname.toLowerCase().endsWith(".local")) {
+    throw new FileInputError("A URL precisa apontar para um endereço público.", 415);
+  }
+  if (isPrivateIp(url.hostname)) {
+    throw new FileInputError("A URL precisa apontar para um endereço público.", 415);
+  }
+  try {
+    const addresses = await dns.lookup(url.hostname, { all: true });
+    if (!addresses.length || addresses.some(({ address }) => isPrivateIp(address))) {
+      throw new FileInputError("A URL precisa apontar para um endereço público.", 415);
+    }
+  } catch (error) {
+    if (error instanceof FileInputError) throw error;
+    throw new FileInputError("Não foi possível localizar o endereço público.", 422);
   }
 
   const controller = new AbortController();
