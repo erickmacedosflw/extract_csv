@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import UrlTester from "./url-tester";
+
 const jsonExample = `{
   "file": "data:text/csv;base64,bmFtZSx2YWx1ZQpBbGljZSwyMA==",
   "filename": "dados.csv"
@@ -27,6 +29,19 @@ const urlExample = `{
   "url": "https://raw.githubusercontent.com/usuario/repositorio/main/dados.xlsx"
 }`;
 
+const urlJavascriptExample = `const response = await fetch(
+  "https://extract-csv.vercel.app/api/convert",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      url: "https://raw.githubusercontent.com/usuario/repositorio/main/dados.csv"
+    })
+  }
+);
+
+const csv = await response.text();`;
+
 export default function DocumentationPage() {
   return (
     <main>
@@ -47,6 +62,8 @@ export default function DocumentationPage() {
         <div className="doc-block"><p className="eyebrow">EXEMPLO · CURL</p><pre className="code-block">{curlExample}</pre></div>
         <div className="doc-block"><p className="eyebrow">EXEMPLO · JAVASCRIPT</p><pre className="code-block">{javascriptExample}</pre></div>
         <div className="doc-block"><p className="eyebrow">ENTRADA · URL PÚBLICA</p><pre className="code-block">{urlExample}</pre><p>Use o link direto do arquivo bruto. O download remoto aceita arquivos de até 10 MB e não salva o conteúdo.</p></div>
+        <div className="doc-block"><p className="eyebrow">EXEMPLO · URL COM JAVASCRIPT</p><pre className="code-block">{urlJavascriptExample}</pre></div>
+        <div className="doc-block online-test"><UrlTester /></div>
         <div className="doc-block response-doc"><p className="eyebrow">RESPOSTA</p><span className="status">200 OK</span><strong>Content-Type: text/csv; charset=utf-8</strong><pre className="response-code">name,value{`\n`}Alice,20</pre></div>
         <div className="doc-block limits"><p className="eyebrow">REGRAS</p><ul><li>Formatos: CSV, XLS e XLSX.</li><li>Excel: somente a primeira aba.</li><li>Base64: 3 MB; URL: 10 MB.</li><li>URLs: HTTPS público de GitHub, GitLab ou Bitbucket.</li><li>Sem banco, arquivos ou histórico.</li><li>Erros retornam JSON com <code>error</code>.</li></ul></div>
       </section>
